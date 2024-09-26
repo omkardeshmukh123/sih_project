@@ -1,0 +1,44 @@
+<?php
+include 'db.php';
+
+if (isset($_POST['upload'])) {
+    $subject_name = $_POST['subject_name'];
+
+    // File upload handling
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["pdf"]["name"]);
+    if (move_uploaded_file($_FILES["pdf"]["tmp_name"], $target_file)) {
+        $pdf_link = $target_file;
+
+        // Insert data into `pyq` table
+        $sql = "INSERT INTO pyq (subject_name, pdf_link) VALUES ('$subject_name', '$pdf_link')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Past Year Question uploaded successfully!";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload PYQ</title>
+</head>
+<body>
+    <h2>Upload Past Year Question</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Subject Name:</label>
+        <input type="text" name="subject_name" required><br><br>
+
+        <label>Upload PDF:</label>
+        <input type="file" name="pdf" required><br><br>
+
+        <button type="submit" name="upload">Upload PYQ</button>
+    </form>
+</body>
+</html>

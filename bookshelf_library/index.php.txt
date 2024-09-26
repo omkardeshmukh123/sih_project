@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookshelf Library</title>
+</head>
+<body>
+    <h1>Welcome to the Bookshelf Library</h1>
+    <a href="upload_book.php">Upload a New Book</a><br><br>
+    <a href="upload_pyq.php">Upload Past Year Questions (PYQ)</a>
+    <a href="display.php">View Uploaded Books and PYQs</a>
+</body>
+</html>

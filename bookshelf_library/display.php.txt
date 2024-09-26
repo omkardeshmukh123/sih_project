@@ -1,0 +1,65 @@
+<?php
+include 'db.php';
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Display</title>
+</head>
+<body>
+    <h1>Bookshelf Library - Available Books and Past Year Questions</h1>
+    <h2>Books</h2>
+    <table border="1">
+        <tr>
+            <th>Book Title</th>
+            <th>Author</th>
+            <th>Chapter</th>
+            <th>PDF Link</th>
+        </tr>
+
+        <?php
+        // Fetch all books from the `books` table
+        $result = $conn->query("SELECT * FROM books");
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['title'] . "</td>";
+                echo "<td>" . $row['author'] . "</td>";
+                echo "<td>" . $row['chapter'] . "</td>";
+                echo "<td><a href='" . $row['pdf_link'] . "' target='_blank'>Download PDF</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>No books available</td></tr>";
+        }
+        ?>
+    </table>
+
+    <h2>Past Year Questions (PYQ)</h2>
+    <table border="1">
+        <tr>
+            <th>Subject Name</th>
+            <th>PDF Link</th>
+        </tr>
+
+        <?php
+        // Fetch all past year questions from the `pyq` table
+        $result = $conn->query("SELECT * FROM pyq");
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['subject_name'] . "</td>";
+                echo "<td><a href='" . $row['pdf_link'] . "' target='_blank'>Download PDF</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='2'>No PYQs available</td></tr>";
+        }
+        ?>
+    </table>
+
+    <br>
+    <a href="index.php">Go Back to Home</a>
+</body>
+</html>

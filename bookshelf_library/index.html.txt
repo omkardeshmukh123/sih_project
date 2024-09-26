@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshelf Library</title>
+</head>
+<body>
+    <h1>Welcome to the Bookshelf Library</h1>
+    <nav>
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="display.php">View Books and Past Year Questions</a></li>
+            <li><a href="upload_book.php">Upload a New Book</a></li>
+            <li><a href="upload_pyq.php">Upload Past Year Questions (PYQ)</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

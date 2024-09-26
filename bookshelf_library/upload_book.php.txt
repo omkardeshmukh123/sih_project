@@ -1,0 +1,56 @@
+<?php
+include 'db.php';
+
+if (isset($_POST['upload'])) {
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $chapter = $_POST['chapter'];
+    $faculty_id = $_POST['faculty_id'];
+
+    // File upload handling
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["pdf"]["name"]);
+    if (move_uploaded_file($_FILES["pdf"]["tmp_name"], $target_file)) {
+        $pdf_link = $target_file;
+
+        // Insert data into `books` table
+        $sql = "INSERT INTO books (title, author, pdf_link, chapter, faculty_id) VALUES ('$title', '$author', '$pdf_link', '$chapter', '$faculty_id')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "New book uploaded successfully!";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Book</title>
+</head>
+<body>
+    <h2>Upload a New Book</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Book Title:</label>
+        <input type="text" name="title" required><br><br>
+
+        <label>Author:</label>
+        <input type="text" name="author" required><br><br>
+
+        <label>Chapter:</label>
+        <input type="text" name="chapter" required><br><br>
+
+        <label>Faculty ID:</label>
+        <input type="number" name="faculty_id" required><br><br>
+
+        <label>Upload PDF:</label>
+        <input type="file" name="pdf" required><br><br>
+
+        <button type="submit" name="upload">Upload Book</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?php
+include 'db.php';
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Books and Notes</title>
+</head>
+<body>
+    <h2>Search Books and Notes</h2>
+    <!-- Search Form -->
+    <form method="POST">
+        <label>Search by Book Title, Chapter, or Faculty Name:</label><br>
+        <input type="text" name="search_query" required>
+        <button type="submit" name="search">Search</button>
+    </form>
+
+    <hr>
+    
+    <?php
+    if (isset($_POST['search'])) {
+        $search_query = $_POST['search_query'];
+
+        // SQL Query to search in the `books` table
+        $sql = "SELECT books.title, books.chapter, books.pdf_link, faculty.name as faculty_name 
+                FROM books 
+                JOIN faculty ON books.faculty_id = faculty.id 
+                WHERE books.title LIKE '%$search_query%' 
+                OR books.chapter LIKE '%$search_query%' 
+                OR faculty.name LIKE '%$search_query%'";
+
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            echo "<h3>Search Results:</h3>";
+            echo "<table border='1'>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Chapter</th>
+                        <th>Faculty Name</th>
+                        <th>PDF Link</th>
+                    </tr>";
+            // Fetch and display the results
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>
+                        <td>" . $row['title'] . "</td>
+                        <td>" . $row['chapter'] . "</td>
+                        <td>" . $row['faculty_name'] . "</td>
+                        <td><a href='" . $row['pdf_link'] . "' target='_blank'>View PDF</a></td>
+                    </tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p>No results found. Try a different search term.</p>";
+        }
+    }
+    ?>
+
+</body>
+</html>
